@@ -26,7 +26,14 @@
             android:theme="@style/AppTheme.Dark" />
         <activity android:name=".Activities.AccountActivity" />
         <activity android:name=".Activities.ElectricityActivity" />
-        <activity android:name=".Activities.CarbonActivity"></activity>
+        <activity android:name=".Activities.CarbonActivity" />
+
+        <activity android:name="com.thefinestartist.finestwebview.FinestWebViewActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="sensor">
+
+        </activity>
     </application>
 
 </manifest>

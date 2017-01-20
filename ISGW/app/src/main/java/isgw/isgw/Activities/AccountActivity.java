@@ -34,8 +34,8 @@ public class AccountActivity extends AppCompatActivity {
         carbon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(),"WORKING FINE",Toast.LENGTH_LONG).show();
-            }
+                Intent intent = new Intent(AccountActivity.this,CarbonActivity.class);
+                startActivity(intent);            }
         });
 
         rewards.setOnClickListener(new View.OnClickListener() {
