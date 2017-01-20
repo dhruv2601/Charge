@@ -24,10 +24,10 @@
         <activity
             android:name=".Activities.SignupActivity"
             android:theme="@style/AppTheme.Dark" />
-        <activity android:name=".Activities.ElectricityActivity"
-            android:exported="true">
-
-        </activity>
+        <activity
+            android:name=".Activities.ElectricityActivity"
+            android:exported="true"></activity>
+        <activity android:name=".Activities.GraphZoomActivity"></activity>
     </application>
 
 </manifest>

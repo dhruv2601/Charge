@@ -19,8 +19,9 @@ import isgw.isgw.R;
  * A simple {@link Fragment} subclass.
  */
 public class BarGraph extends Fragment {
-    private GraphView gView;
 
+    public static final String INTENT_ACTION="BarGraph";
+    private GraphView gView;
     private DataPoint[] pt;
     private BarGraphSeries<DataPoint> series;
     private StaticLabelsFormatter label;
@@ -72,6 +73,4 @@ public class BarGraph extends Fragment {
     private void retrieveData() {
         //call gView from here
     }
-
-
 }

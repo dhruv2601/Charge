@@ -24,6 +24,7 @@ import isgw.isgw.R;
 
 public class Realtime extends android.support.v4.app.Fragment {
 
+    public static final String INTENT_ACTION="Realtime";
     private static final String TAG = "Realtime";
     private final Handler mHandler = new Handler();
     private Runnable t1;
