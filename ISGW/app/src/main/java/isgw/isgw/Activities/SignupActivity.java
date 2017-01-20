@@ -89,7 +89,6 @@ public class SignupActivity extends AppCompatActivity {
         // other fields can be set just like with ParseObject
         user.put("phone",mobile);
         user.put("name",name);
-        user.saveInBackground();
 
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
@@ -112,6 +111,7 @@ public class SignupActivity extends AppCompatActivity {
                     // to figure out what went wrong
                     progressDialog.dismiss();
                     Toast.makeText(getBaseContext(), "Signup failed", Toast.LENGTH_LONG).show();
+                    e.printStackTrace();
                 }
             }
         });

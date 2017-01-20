@@ -18,9 +18,15 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="isgw.isgw.Activities.LoginActivity" android:theme="@style/AppTheme.Dark" />
-        <activity android:name="isgw.isgw.Activities.SignupActivity" android:theme="@style/AppTheme.Dark" />
-
+        <activity
+            android:name=".Activities.LoginActivity"
+            android:theme="@style/AppTheme.Dark" />
+        <activity
+            android:name=".Activities.SignupActivity"
+            android:theme="@style/AppTheme.Dark" />
+        <activity android:name=".Activities.AccountActivity" />
+        <activity android:name=".Activities.ElectricityActivity" />
+        <activity android:name=".Activities.CarbonActivity"></activity>
     </application>
 
 </manifest>
