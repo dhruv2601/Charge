@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 
+import isgw.isgw.Graphs.BarGraph;
 import isgw.isgw.Graphs.Realtime;
 import isgw.isgw.R;
 
@@ -16,13 +17,20 @@ public class ElectricityActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_electricity);
         loadRealtimeGraph();
-
+        loadBarGraph();
     }
 
     private void loadRealtimeGraph() {
         FragmentManager manager=getSupportFragmentManager();
         FragmentTransaction txn=manager.beginTransaction();
         txn.add(R.id.real_graph_holder, new Realtime());
+        txn.commit();
+    }
+
+    private void loadBarGraph() {
+        FragmentManager manager=getSupportFragmentManager();
+        FragmentTransaction txn=manager.beginTransaction();
+        txn.add(R.id.bar_graph_holder, new BarGraph());
         txn.commit();
     }
 }
