@@ -1,5 +1,6 @@
 package isgw.isgw.Graphs;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -15,6 +16,8 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.Random;
 
+import isgw.isgw.Activities.ElectricityActivity;
+import isgw.isgw.Activities.GraphZoomActivity;
 import isgw.isgw.R;
 
 
@@ -24,15 +27,19 @@ import isgw.isgw.R;
 
 public class Realtime extends android.support.v4.app.Fragment {
 
-    public static final String INTENT_ACTION="Realtime";
+    public static final String INTENT_ACTION = "Realtime";
     private static final String TAG = "Realtime";
     private final Handler mHandler = new Handler();
     private Runnable t1;
     private LineGraphSeries<DataPoint> series1;
-    private double lastXVal=5;
+    private double lastXVal = 5;
+
+    public Realtime() {
+        Log.d(TAG, "Realtime: ctor called");
+    }
+
     @Nullable
     @Override
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rView = inflater.inflate(R.layout.fragment_realtime, container, false);
         GraphView gView = (GraphView) rView.findViewById(R.id.graph);
@@ -45,6 +52,15 @@ public class Realtime extends android.support.v4.app.Fragment {
         gView.getViewport().setMinX(0);
         gView.getViewport().setMaxX(30);
         gView.getGridLabelRenderer().setLabelVerticalWidth(100);
+        if (getActivity() instanceof ElectricityActivity)
+            gView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), GraphZoomActivity.class)
+                        .setAction(INTENT_ACTION));
+            }
+        });
+        Log.d(TAG, "onCreateView: called");
         return rView;
     }
 
@@ -56,20 +72,21 @@ public class Realtime extends android.support.v4.app.Fragment {
             @Override
             public void run() {
                 lastXVal++;
-                double t=getRand();
-                Log.d(TAG, "run: rand"+getRand());
-                series1.appendData(new DataPoint(lastXVal,t),true,30);
+                double t = getRand();
+                series1.appendData(new DataPoint(lastXVal, t), true, 30);
                 mHandler.postDelayed(this, 500);
             }
         };
-
         mHandler.postDelayed(t1, 1000);
+        Log.d(TAG, "onResume: called");
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        Log.d(TAG, "onPause: called");
         mHandler.removeCallbacks(t1);
+
     }
 
 
@@ -83,13 +100,12 @@ public class Realtime extends android.support.v4.app.Fragment {
 //    }
 
     //// TODO: 1/20/17 to be removed
-    private double lastRandVal=2d;
-    Random r=new Random();
+    private double lastRandVal = 2d;
+    Random r = new Random();
+
     private double getRand() {
-        return lastRandVal=(lastRandVal+r.nextDouble()*0.7-0.25);
+        return lastRandVal = (lastRandVal + r.nextDouble() * 0.7 - 0.25);
     }
-
-
 
 
 }

@@ -1,6 +1,7 @@
 package isgw.isgw.Graphs;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -13,6 +14,8 @@ import com.jjoe64.graphview.helper.StaticLabelsFormatter;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 
+import isgw.isgw.Activities.ElectricityActivity;
+import isgw.isgw.Activities.GraphZoomActivity;
 import isgw.isgw.R;
 
 /**
@@ -20,16 +23,17 @@ import isgw.isgw.R;
  */
 public class BarGraph extends Fragment {
 
-    public static final String INTENT_ACTION="BarGraph";
+    public static final String INTENT_ACTION = "BarGraph";
     private GraphView gView;
     private DataPoint[] pt;
     private BarGraphSeries<DataPoint> series;
     private StaticLabelsFormatter label;
+
     public BarGraph() {
         // Required empty public constructor
         pt = new DataPoint[12];
         for (int i = 0; i < 12; i++) {
-            pt[i] = new DataPoint(i, (i*97+17)%6);
+            pt[i] = new DataPoint(i, (i * 97 + 17) % 6);
         }
     }
 
@@ -39,7 +43,7 @@ public class BarGraph extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rView = inflater.inflate(R.layout.fragment_bar_graph, container, false);
-        series=new BarGraphSeries<>(pt);
+        series = new BarGraphSeries<>(pt);
         series.setSpacing(50);
         series.setDrawValuesOnTop(true);
         series.setAnimated(true);
@@ -48,7 +52,7 @@ public class BarGraph extends Fragment {
         gView = (GraphView) rView.findViewById(R.id.bar_graph);
         gView.addSeries(series);
 
-        label=new StaticLabelsFormatter(gView);
+        label = new StaticLabelsFormatter(gView);
         label.setHorizontalLabels(new String[]{
                 "JAN",
                 "FEB",
@@ -66,6 +70,14 @@ public class BarGraph extends Fragment {
         gView.getGridLabelRenderer().setLabelFormatter(label);
         gView.getLegendRenderer().setVisible(true);
         gView.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
+        if (getActivity() instanceof ElectricityActivity)
+            gView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(getContext(), GraphZoomActivity.class)
+                            .setAction(BarGraph.INTENT_ACTION));
+                }
+            });
         return rView;
     }
 
