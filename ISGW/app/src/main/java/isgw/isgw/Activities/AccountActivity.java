@@ -48,8 +48,8 @@ public class AccountActivity extends AppCompatActivity {
         rewards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(),"WORKING FINE",Toast.LENGTH_LONG).show();
-            }
+                Intent intent = new Intent(AccountActivity.this,RewardsActivity.class);
+                startActivity(intent);            }
         });
 
         profile.setOnClickListener(new View.OnClickListener() {
