@@ -107,7 +107,7 @@ public class Realtime extends android.support.v4.app.Fragment {
 //
 //    }
 
-    //// TODO: 1/20/17 to be removed
+    // TODO: 1/20/17 to be removed
     private double lastRandVal = 2d;
     Random r = new Random();
 
