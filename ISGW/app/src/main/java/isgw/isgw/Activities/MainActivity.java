@@ -32,10 +32,8 @@ public class MainActivity extends AppCompatActivity {
             parsePassword = currentUser.getEmail();
 
             Log.d(TAG,"currentUserIsThere");
-
 //            currentUser.addAll("appliance", Arrays.asList("A.C.", "Fan", "CFL", "Refrigerator"));
 //            currentUser.saveInBackground();
-
             Calendar c = Calendar.getInstance();
             Log.d(TAG,"currTime:  "+c.getTime());
 

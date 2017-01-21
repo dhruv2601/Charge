@@ -1,6 +1,7 @@
 package isgw.isgw.Graphs;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -9,10 +10,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.Random;
 
@@ -34,6 +41,16 @@ public class Realtime extends android.support.v4.app.Fragment {
     private LineGraphSeries<DataPoint> series1;
     private double lastXVal = 5;
 
+    public double kwhAC = 1.8;
+    public double kwhRefr = 0.08;
+    public double kwhWashingM = 2;
+    public double kwhTV = 0.113;
+    public double kwhHeater = 0.1;
+    public double kwhSmartMeter = 0.1;
+    public double kwhLight = 0.038;
+
+    public static int totalConsum;
+
     public Realtime() {
         Log.d(TAG, "Realtime: ctor called");
     }
@@ -51,7 +68,6 @@ public class Realtime extends android.support.v4.app.Fragment {
         gView.getViewport().setXAxisBoundsManual(true);
         gView.getViewport().setMinX(0);
         gView.getViewport().setMaxX(30);
-
 
         gView.getGridLabelRenderer().setLabelVerticalWidth(100);
         if (getActivity() instanceof ElectricityActivity) {
@@ -71,7 +87,6 @@ public class Realtime extends android.support.v4.app.Fragment {
         Log.d(TAG, "onCreateView: called");
         return rView;
     }
-
 
     @Override
     public void onResume() {
@@ -115,5 +130,75 @@ public class Realtime extends android.support.v4.app.Fragment {
         return lastRandVal = (lastRandVal + r.nextDouble() * 0.7 - 0.25);
     }
 
+    public class darkRequestToParse extends AsyncTask<Void, Void, Void> {
+        ParseUser user = ParseUser.getCurrentUser();
+        String currObjId = user.getObjectId();
 
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("User");
+            query.getInBackground(currObjId, new GetCallback<ParseObject>() {
+                @Override
+                public void done(ParseObject object, ParseException e) {
+                    if (e == null) {
+
+                        String airconditioner = object.getString("Airconditioner");
+                        if (airconditioner.equals("1")) {
+                            String timeUse = object.getString("timeStatus");
+                            int time = Integer.parseInt(timeUse);
+//                            totalConsum += time * kwhAC;
+                            totalConsum += kwhAC;
+                        }
+                        String SmartMeter = object.getString("SmartMeter");
+                        if (SmartMeter.equals("1")) {
+                            String timeUse = object.getString("timeStatus");
+                            int time = Integer.parseInt(timeUse);
+//                            totalConsum += time * kwhSmartMeter;
+                            totalConsum += kwhSmartMeter;
+                        }
+                        String Fridge = object.getString("Fridge");
+                        if (Fridge.equals("1")) {
+                            String timeUse = object.getString("timeStatus");
+                            int time = Integer.parseInt(timeUse);
+//                            totalConsum += time * kwhRefr;
+                            totalConsum += kwhRefr;
+                        }
+                        String Lighting = object.getString("Lighting");
+                        if (Lighting.equals("1")) {
+                            String timeUse = object.getString("timeStatus");
+                            int time = Integer.parseInt(timeUse);
+//                            totalConsum += time * kwhLight;
+                            totalConsum += kwhLight;
+                        }
+                        String WashingMachine = object.getString("WashingMachine");
+                        if (WashingMachine.equals("1")) {
+                            String timeUse = object.getString("timeStatus");
+                            int time = Integer.parseInt(timeUse);
+//                            totalConsum += time * kwhWashingM;
+                            totalConsum += kwhWashingM;
+                        }
+                        String TV = object.getString("TV");
+                        if (TV.equals("1")) {
+                            String timeUse = object.getString("timeStatus");
+                            int time = Integer.parseInt(timeUse);
+//                            totalConsum += time * kwhTV;
+                            totalConsum += kwhTV;
+                        }
+                        String Heater = object.getString("Heater");
+                        if (Heater.equals("1")) {
+                            String timeUse = object.getString("timeStatus");
+                            int time = Integer.parseInt(timeUse);
+//                            totalConsum += time * kwhHeater;
+                            totalConsum += kwhHeater;
+                        }
+
+                    } else {
+                        Toast.makeText(getContext(), "Error retreaving graph", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+            return null;
+        }
+    }
 }
