@@ -46,4 +46,5 @@ public class ElectricityActivity extends AppCompatActivity {
         txn.add(R.id.bar_graph_holder, new BarGraph());
         txn.commit();
     }
+
 }
