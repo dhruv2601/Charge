@@ -33,7 +33,7 @@ public class BarGraph extends Fragment {
         // Required empty public constructor
         pt = new DataPoint[12];
         for (int i = 0; i < 12; i++) {
-            pt[i] = new DataPoint(i, (i * 97 + (double)17/(i+1)) % 6);
+            pt[i] = new DataPoint(i, (i * 97 + (double) 17 / (i + 1)) % 6);
         }
     }
 

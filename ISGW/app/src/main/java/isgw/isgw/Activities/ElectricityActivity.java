@@ -20,6 +20,7 @@ import isgw.isgw.R;
 public class ElectricityActivity extends AppCompatActivity {
 
     private static final String TAG = "ElectricityActivity";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +28,7 @@ public class ElectricityActivity extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
-        if (savedInstanceState==null) {
+        if (savedInstanceState == null) {
             loadRealtimeGraph();
             loadBarGraph();
         }
