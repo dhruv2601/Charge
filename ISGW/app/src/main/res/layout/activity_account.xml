@@ -334,7 +334,7 @@
 
                 <ImageView
                     app:srcCompat="@drawable/appliance"
-                    android:id="@+id/imageView5"
+                    android:id="@+id/imageView6"
                     android:layout_height="100dp"
                     android:layout_width="100dp"
                     android:layout_marginTop="10dp"
@@ -346,6 +346,15 @@
             </LinearLayout>
 
 
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:textSize="22sp"
+                android:text="SIGN OUT"
+                android:id="@+id/signout"
+                android:background="@color/Color_Crimson"
+                android:textColor="@color/accent"
+                />
 
         </LinearLayout>
     </ScrollView>
