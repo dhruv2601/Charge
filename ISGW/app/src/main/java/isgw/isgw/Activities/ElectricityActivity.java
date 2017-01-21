@@ -25,6 +25,7 @@ import isgw.isgw.R;
 public class ElectricityActivity extends AppCompatActivity {
 
     private static final String TAG = "ElectricityActivity";
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
