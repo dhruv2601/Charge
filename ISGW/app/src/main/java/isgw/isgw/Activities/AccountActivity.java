@@ -23,6 +23,7 @@ public class AccountActivity extends AppCompatActivity {
         LinearLayout rewards = (LinearLayout)findViewById(R.id.reward);
         LinearLayout profile = (LinearLayout)findViewById(R.id.profile);
         LinearLayout payment = (LinearLayout) findViewById(R.id.payments);
+        LinearLayout appliances = (LinearLayout) findViewById(R.id.appliances);
 
         electricity.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,6 +58,14 @@ public class AccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(AccountActivity.this,PaymentActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        appliances.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(AccountActivity.this,AppliancesActivity.class);
                 startActivity(intent);
             }
         });
