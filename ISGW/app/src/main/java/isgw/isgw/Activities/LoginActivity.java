@@ -23,10 +23,14 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
 
-    @Bind(R.id.input_email) EditText _emailText;
-    @Bind(R.id.input_password) EditText _passwordText;
-    @Bind(R.id.btn_login) Button _loginButton;
-    @Bind(R.id.link_signup) TextView _signupLink;
+    @Bind(R.id.input_email)
+    EditText _emailText;
+    @Bind(R.id.input_password)
+    EditText _passwordText;
+    @Bind(R.id.btn_login)
+    Button _loginButton;
+    @Bind(R.id.link_signup)
+    TextView _signupLink;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -80,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void done(ParseUser user, ParseException e) {
 
-                if (user!=null){
+                if (user != null) {
 
                     // LOGIN SUCCESSFUL
 
@@ -94,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                             }, 3000);
 
-                }   else{
+                } else {
 
                     // LOGIN FAILED
                     progressDialog.dismiss();
@@ -127,7 +131,7 @@ public class LoginActivity extends AppCompatActivity {
     public void onLoginSuccess() {
         _loginButton.setEnabled(true);
 
-        Intent intent = new Intent(LoginActivity.this,AccountActivity.class);
+        Intent intent = new Intent(LoginActivity.this, AccountActivity.class);
         startActivity(intent);
     }
 

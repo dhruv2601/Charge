@@ -21,10 +21,10 @@ public class AccountActivity extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
-        LinearLayout electricity = (LinearLayout)findViewById(R.id.elec);
-        LinearLayout carbon = (LinearLayout)findViewById(R.id.carbon);
-        LinearLayout rewards = (LinearLayout)findViewById(R.id.reward);
-        LinearLayout profile = (LinearLayout)findViewById(R.id.profile);
+        LinearLayout electricity = (LinearLayout) findViewById(R.id.elec);
+        LinearLayout carbon = (LinearLayout) findViewById(R.id.carbon);
+        LinearLayout rewards = (LinearLayout) findViewById(R.id.reward);
+        LinearLayout profile = (LinearLayout) findViewById(R.id.profile);
         LinearLayout payment = (LinearLayout) findViewById(R.id.payments);
         LinearLayout appliances = (LinearLayout) findViewById(R.id.appliances);
 
@@ -33,7 +33,7 @@ public class AccountActivity extends AppCompatActivity {
         electricity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(AccountActivity.this,ElectricityActivity.class);
+                Intent intent = new Intent(AccountActivity.this, ElectricityActivity.class);
                 startActivity(intent);
             }
         });
@@ -41,28 +41,30 @@ public class AccountActivity extends AppCompatActivity {
         carbon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(AccountActivity.this,CarbonActivity.class);
-                startActivity(intent);            }
+                Intent intent = new Intent(AccountActivity.this, CarbonActivity.class);
+                startActivity(intent);
+            }
         });
 
         rewards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(),"WORKING FINE",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "WORKING FINE", Toast.LENGTH_LONG).show();
             }
         });
 
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(AccountActivity.this,ProfileActivity.class);
-                startActivity(intent);            }
+                Intent intent = new Intent(AccountActivity.this, ProfileActivity.class);
+                startActivity(intent);
+            }
         });
 
         payment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(AccountActivity.this,PaymentActivity.class);
+                Intent intent = new Intent(AccountActivity.this, PaymentActivity.class);
                 startActivity(intent);
             }
         });
@@ -70,7 +72,7 @@ public class AccountActivity extends AppCompatActivity {
         appliances.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(AccountActivity.this,AppliancesActivity.class);
+                Intent intent = new Intent(AccountActivity.this, AppliancesActivity.class);
                 startActivity(intent);
             }
         });
@@ -79,11 +81,11 @@ public class AccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (ParseUser.getCurrentUser()!=null){
+                if (ParseUser.getCurrentUser() != null) {
                     ParseUser.logOut();
                 }
 
-                Intent intent = new Intent(AccountActivity.this,LoginActivity.class);
+                Intent intent = new Intent(AccountActivity.this, LoginActivity.class);
                 startActivity(intent);
 
             }
