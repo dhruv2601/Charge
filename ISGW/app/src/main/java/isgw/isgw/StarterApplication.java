@@ -4,6 +4,7 @@ package isgw.isgw;
 import android.app.Application;
 import com.parse.Parse;
 import com.parse.ParseACL;
+import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 
 public class StarterApplication extends Application {
@@ -22,6 +23,10 @@ public class StarterApplication extends Application {
                 .clientKey("SSTTaBiNXpnBqBdbvalUeytwyM3JSkYErPOLZoRA")
                 .server("https://parseapi.back4app.com/").build()
         );
+
+        ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+        installation.put("AAAAVqJmGpM:APA91bHeNKZYF-u2qpsVil0IqQl9sOhG5e7AA9GkeZpyGJQ1BiQMD47mUOuuTFfYPBwtPu20VGyZOjm7mLl4bVbluo8iARFpIhQ4rWbm0UD7oHfMyZcSIMP5muJshWRzzEuq6npKmq_C", "372091787923");
+        installation.saveInBackground();
 
         ParseACL defaultACL = new ParseACL();
         // Optionally enable public read access.
