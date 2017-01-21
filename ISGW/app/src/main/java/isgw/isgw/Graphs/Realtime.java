@@ -1,6 +1,7 @@
 package isgw.isgw.Graphs;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -9,10 +10,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.DataPoint;
 import com.jjoe64.graphview.series.LineGraphSeries;
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.Random;
 
@@ -33,7 +40,17 @@ public class Realtime extends android.support.v4.app.Fragment {
     private final Handler mHandler = new Handler();
     private Runnable t1;
     private LineGraphSeries<DataPoint> series1;
-    private double lastXVal = 5;
+    private double lastXVal = 0;
+
+    public double kwhAC = 1.8;
+    public double kwhRefr = 0.08;
+    public double kwhWashingM = 2;
+    public double kwhTV = 0.113;
+    public double kwhHeater = 0.1;
+    public double kwhSmartMeter = 0.1;
+    public double kwhLight = 0.038;
+
+    public static int totalConsum;
 
     public Realtime() {
         Log.d(TAG, "Realtime: ctor called");
@@ -52,7 +69,6 @@ public class Realtime extends android.support.v4.app.Fragment {
         gView.getViewport().setXAxisBoundsManual(true);
         gView.getViewport().setMinX(0);
         gView.getViewport().setMaxX(30);
-
 
         gView.getGridLabelRenderer().setLabelVerticalWidth(100);
         if (getActivity() instanceof ElectricityActivity) {
@@ -75,32 +91,32 @@ public class Realtime extends android.support.v4.app.Fragment {
 
     private void setGraphTitle(GraphView gView) {
         int args;
-        if (getArguments()!=null) args=getArguments().getInt(AppliancesActivity.GRAPH_TYPE);
-        else args=-1;
-        String st="";
+        if (getArguments() != null) args = getArguments().getInt(AppliancesActivity.GRAPH_TYPE);
+        else args = -1;
+        String st = "";
         switch (args) {
             case AppliancesActivity.AC:
-                st+="AC ";
+                st += "AC ";
                 break;
             case AppliancesActivity.FRIDGE:
-                st+="REFRIGERATOR ";
+                st += "REFRIGERATOR ";
                 break;
             case AppliancesActivity.WASH_M:
-                st+="WASHING MACHINE ";
+                st += "WASHING MACHINE ";
                 break;
             case AppliancesActivity.BULB:
-                st+="BULB ";
+                st += "BULB ";
                 break;
             case AppliancesActivity.COMP:
-                st+="COMPUTER ";
+                st += "COMPUTER ";
                 break;
             case AppliancesActivity.HEATER:
-                st+="HEATER ";
+                st += "HEATER ";
                 break;
             default:
-                st+="MONTHLY ";
+                st += "MONTHLY ";
         }
-        st+="UNIT CONSUMPTION";
+        st += "UNIT CONSUMPTION";
         gView.setTitle(st);
     }
 
@@ -111,13 +127,12 @@ public class Realtime extends android.support.v4.app.Fragment {
         t1 = new Runnable() {
             @Override
             public void run() {
-                lastXVal++;
-                double t = getRand();
-                series1.appendData(new DataPoint(lastXVal, t), true, 30);
-                mHandler.postDelayed(this, 500);
+                lastXVal += 0.5;
+                new LiveRequestToParse().execute();
+                mHandler.postDelayed(this, 10 * 1000);
             }
         };
-        mHandler.postDelayed(t1, 1000);
+        mHandler.postDelayed(t1, 0);
         Log.d(TAG, "onResume: called");
     }
 
@@ -139,13 +154,71 @@ public class Realtime extends android.support.v4.app.Fragment {
 //
 //    }
 
-    // TODO: 1/20/17 to be removed
-    private double lastRandVal = 2d;
-    Random r = new Random();
+    // TODO: 1/20/17 to be removed: complete
+//    private double lastRandVal = 2d;
+//    Random r = new Random();
+//
+//    private double getRand() {
+//        return lastRandVal = (lastRandVal + r.nextDouble() * 0.7 - 0.25);
+//    }
 
-    private double getRand() {
-        return lastRandVal = (lastRandVal + r.nextDouble() * 0.7 - 0.25);
+    public class LiveRequestToParse extends AsyncTask<Void, Void, Void> {
+
+        ParseUser currUser = ParseUser.getCurrentUser();
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            String airconditioner = currUser.getString("Airconditioner");
+            if (airconditioner.equals("1")) {
+                String timeUse = currUser.getString("timeStatus");
+                totalConsum += kwhAC;
+                Log.d(TAG, "aircond");
+            }
+            String SmartMeter = currUser.getString("SmartMeter");
+            if (SmartMeter.equals("1")) {
+                String timeUse = currUser.getString("timeStatus");
+                int time = Integer.parseInt(timeUse);
+//                            totalConsum += time * kwhSmartMeter;
+                totalConsum += kwhSmartMeter;
+            }
+            String Fridge = currUser.getString("Fridge");
+            if (Fridge.equals("1")) {
+                String timeUse = currUser.getString("timeStatus");
+                int time = Integer.parseInt(timeUse);
+//                            totalConsum += time * kwhRefr;
+                totalConsum += kwhRefr;
+            }
+            String Lighting = currUser.getString("Lighting");
+            if (Lighting.equals("1")) {
+                String timeUse = currUser.getString("timeStatus");
+                int time = Integer.parseInt(timeUse);
+//                            totalConsum += time * kwhLight;
+                totalConsum += kwhLight;
+            }
+            String WashingMachine = currUser.getString("WashingMachine");
+            if (WashingMachine.equals("1")) {
+                String timeUse = currUser.getString("timeStatus");
+                int time = Integer.parseInt(timeUse);
+//                            totalConsum += time * kwhWashingM;
+                totalConsum += kwhWashingM;
+            }
+            String TV = currUser.getString("TV");
+            if (TV.equals("1")) {
+                String timeUse = currUser.getString("timeStatus");
+                int time = Integer.parseInt(timeUse);
+//                            totalConsum += time * kwhTV;
+                totalConsum += kwhTV;
+            }
+            String Heater = currUser.getString("Heater");
+            if (Heater.equals("1")) {
+                String timeUse = currUser.getString("timeStatus");
+                int time = Integer.parseInt(timeUse);
+//                            totalConsum += time * kwhHeater;
+                totalConsum += kwhHeater;
+            }
+            series1.appendData(new DataPoint(lastXVal, totalConsum), true, 30);
+            return null;
+        }
     }
-
-
 }

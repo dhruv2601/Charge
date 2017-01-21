@@ -2,6 +2,7 @@ package isgw.isgw;
 
 
 import android.app.Application;
+
 import com.parse.Parse;
 import com.parse.ParseACL;
 import com.parse.ParseUser;
@@ -18,8 +19,8 @@ public class StarterApplication extends Application {
 
         // Add your initialization code here
         Parse.initialize(new Parse.Configuration.Builder(this)
-                .applicationId("lwAHnbXA3w5LDeHzTFyQsjyvV3M1xw0Y4NsJ9l6Y")
-                .clientKey("gVHHcCQxgewVXhO9ZAFeIuEnsj8gCSLGxl7DTwcu")
+                .applicationId("tHngQYBJmifYY141pqCbB2UePtRUlAHaazDVyIkd")
+                .clientKey("SSTTaBiNXpnBqBdbvalUeytwyM3JSkYErPOLZoRA")
                 .server("https://parseapi.back4app.com/").build()
         );
 

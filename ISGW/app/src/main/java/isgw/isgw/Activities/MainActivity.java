@@ -32,21 +32,19 @@ public class MainActivity extends AppCompatActivity {
             parsePassword = currentUser.getEmail();
 
             Log.d(TAG,"currentUserIsThere");
-
 //            currentUser.addAll("appliance", Arrays.asList("A.C.", "Fan", "CFL", "Refrigerator"));
 //            currentUser.saveInBackground();
-
             Calendar c = Calendar.getInstance();
             Log.d(TAG,"currTime:  "+c.getTime());
 
             SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
             String formattedDate = df.format(c.getTime());
 
-            SendToParse sendToParse = new SendToParse(formattedDate,c.getTimeInMillis(),"Pankha",101,10);
-            sendToParse.execute();
-
-            GetFromParse getFromParse = new GetFromParse();
-            getFromParse.execute();
+//            SendToParse sendToParse = new SendToParse(formattedDate,c.getTimeInMillis(),"Pankha",101,10);
+//            sendToParse.execute();
+//
+//            GetFromParse getFromParse = new GetFromParse();
+//            getFromParse.execute();
 
             Log.d(TAG,"currentUser is there");
             Intent i = new Intent(MainActivity.this, AccountActivity.class);         // account Activity
