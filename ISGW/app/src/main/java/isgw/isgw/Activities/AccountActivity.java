@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
+
+import com.parse.ParseUser;
 
 import isgw.isgw.R;
 
@@ -24,6 +27,8 @@ public class AccountActivity extends AppCompatActivity {
         LinearLayout profile = (LinearLayout)findViewById(R.id.profile);
         LinearLayout payment = (LinearLayout) findViewById(R.id.payments);
         LinearLayout appliances = (LinearLayout) findViewById(R.id.appliances);
+
+        Button signout = (Button) findViewById(R.id.signout);
 
         electricity.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,6 +72,20 @@ public class AccountActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(AccountActivity.this,AppliancesActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        signout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if (ParseUser.getCurrentUser()!=null){
+                    ParseUser.logOut();
+                }
+
+                Intent intent = new Intent(AccountActivity.this,LoginActivity.class);
+                startActivity(intent);
+
             }
         });
 
