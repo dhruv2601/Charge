@@ -33,7 +33,7 @@ public class BarGraph extends Fragment {
         // Required empty public constructor
         pt = new DataPoint[12];
         for (int i = 0; i < 12; i++) {
-            pt[i] = new DataPoint(i, (i * 97 + 17) % 6);
+            pt[i] = new DataPoint(i, (i * 97 + (double)17/(i+1)) % 6);
         }
     }
 
@@ -44,7 +44,7 @@ public class BarGraph extends Fragment {
         // Inflate the layout for this fragment
         View rView = inflater.inflate(R.layout.fragment_bar_graph, container, false);
         series = new BarGraphSeries<>(pt);
-        series.setSpacing(50);
+        series.setSpacing(40);
         series.setDrawValuesOnTop(true);
         series.setAnimated(true);
         series.setTitle("Yearly Unit Consumption");
@@ -67,10 +67,11 @@ public class BarGraph extends Fragment {
                 "NOV",
                 "DEC"
         });
+
         gView.getGridLabelRenderer().setLabelFormatter(label);
         gView.getLegendRenderer().setVisible(true);
         gView.getLegendRenderer().setAlign(LegendRenderer.LegendAlign.TOP);
-        if (getActivity() instanceof ElectricityActivity)
+        if (getActivity() instanceof ElectricityActivity) {
             gView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -78,6 +79,12 @@ public class BarGraph extends Fragment {
                             .setAction(BarGraph.INTENT_ACTION));
                 }
             });
+        } else {
+            gView.getViewport().setScrollable(true);
+            gView.getViewport().setScrollableY(true);
+            gView.getViewport().setScalable(true);
+            gView.getViewport().setScalableY(true);
+        }
         return rView;
     }
 

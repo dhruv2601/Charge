@@ -51,15 +51,23 @@ public class Realtime extends android.support.v4.app.Fragment {
         gView.getViewport().setXAxisBoundsManual(true);
         gView.getViewport().setMinX(0);
         gView.getViewport().setMaxX(30);
+
+
         gView.getGridLabelRenderer().setLabelVerticalWidth(100);
-        if (getActivity() instanceof ElectricityActivity)
+        if (getActivity() instanceof ElectricityActivity) {
             gView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getContext(), GraphZoomActivity.class)
-                        .setAction(INTENT_ACTION));
-            }
-        });
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(getContext(), GraphZoomActivity.class)
+                            .setAction(INTENT_ACTION));
+                }
+            });
+        } else {
+            gView.getViewport().setScrollable(true);
+            gView.getViewport().setScrollableY(true);
+            gView.getViewport().setScalable(true);
+            gView.getViewport().setScalableY(true);
+        }
         Log.d(TAG, "onCreateView: called");
         return rView;
     }
