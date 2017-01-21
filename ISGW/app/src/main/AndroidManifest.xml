@@ -3,6 +3,7 @@
     package="isgw.isgw">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
 
     <application
         android:name=".StarterApplication"
@@ -12,15 +13,21 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Activities.MainActivity">
+
+        </activity>
+        <activity
+            android:name=".Activities.LoginActivity"
+            android:theme="@style/AppTheme.Dark" />
+        <activity
+            android:name=".Activities.SignupActivity"
+            android:theme="@style/AppTheme.Dark" />
+        <activity android:name=".Activities.ScanningActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="isgw.isgw.Activities.LoginActivity" android:theme="@style/AppTheme.Dark" />
-        <activity android:name="isgw.isgw.Activities.SignupActivity" android:theme="@style/AppTheme.Dark" />
-
     </application>
 
 </manifest>
