@@ -16,6 +16,7 @@ import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.Random;
 
+import isgw.isgw.Activities.AppliancesActivity;
 import isgw.isgw.Activities.ElectricityActivity;
 import isgw.isgw.Activities.GraphZoomActivity;
 import isgw.isgw.R;
@@ -47,7 +48,7 @@ public class Realtime extends android.support.v4.app.Fragment {
         series1.setDrawDataPoints(true);
         series1.setDrawBackground(true);
         gView.addSeries(series1);
-        gView.setTitle("Unit Consumption");
+        setGraphTitle(gView);
         gView.getViewport().setXAxisBoundsManual(true);
         gView.getViewport().setMinX(0);
         gView.getViewport().setMaxX(30);
@@ -70,6 +71,37 @@ public class Realtime extends android.support.v4.app.Fragment {
         }
         Log.d(TAG, "onCreateView: called");
         return rView;
+    }
+
+    private void setGraphTitle(GraphView gView) {
+        int args;
+        if (getArguments()!=null) args=getArguments().getInt(AppliancesActivity.GRAPH_TYPE);
+        else args=-1;
+        String st="";
+        switch (args) {
+            case AppliancesActivity.AC:
+                st+="AC ";
+                break;
+            case AppliancesActivity.FRIDGE:
+                st+="REFRIGERATOR ";
+                break;
+            case AppliancesActivity.WASH_M:
+                st+="WASHING MACHINE ";
+                break;
+            case AppliancesActivity.BULB:
+                st+="BULB ";
+                break;
+            case AppliancesActivity.COMP:
+                st+="COMPUTER ";
+                break;
+            case AppliancesActivity.HEATER:
+                st+="HEATER ";
+                break;
+            default:
+                st+="MONTHLY ";
+        }
+        st+="UNIT CONSUMPTION";
+        gView.setTitle(st);
     }
 
 
