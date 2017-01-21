@@ -27,20 +27,18 @@ public class LoginActivity extends AppCompatActivity {
     @Bind(R.id.input_password) EditText _passwordText;
     @Bind(R.id.btn_login) Button _loginButton;
     @Bind(R.id.link_signup) TextView _signupLink;
-    
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        
+
         _loginButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                //login();
-                Intent intent = new Intent(LoginActivity.this,AccountActivity.class);
-                startActivity(intent);
+                login();
             }
         });
 
@@ -82,27 +80,26 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void done(ParseUser user, ParseException e) {
 
-                    if (user!=null){
+                if (user!=null){
 
-                        // LOGIN SUCCESSFUL
+                    // LOGIN SUCCESSFUL
 
+                    new android.os.Handler().postDelayed(
+                            new Runnable() {
+                                public void run() {
+                                    // On complete call either onLoginSuccess or onLoginFailed
+                                    onLoginSuccess();
+                                    // onLoginFailed();
+                                    progressDialog.dismiss();
+                                }
+                            }, 3000);
 
-                        new android.os.Handler().postDelayed(
-                                new Runnable() {
-                                    public void run() {
-                                        // On complete call either onLoginSuccess or onLoginFailed
-                                        onLoginSuccess();
-                                        // onLoginFailed();
-                                        progressDialog.dismiss();
-                                    }
-                                }, 3000);
+                }   else{
 
-                    }   else{
-
-                        // LOGIN FAILED
-                        progressDialog.dismiss();
-                        onLoginFailed();
-                    }
+                    // LOGIN FAILED
+                    progressDialog.dismiss();
+                    onLoginFailed();
+                }
             }
         });
 

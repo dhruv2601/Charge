@@ -27,10 +27,9 @@ public class SignupActivity extends AppCompatActivity {
     @Bind(R.id.input_email) EditText _emailText;
     @Bind(R.id.input_mobile) EditText _mobileText;
     @Bind(R.id.input_password) EditText _passwordText;
-    @Bind(R.id.input_reEnterPassword) EditText _reEnterPasswordText;
     @Bind(R.id.btn_signup) Button _signupButton;
     @Bind(R.id.link_login) TextView _loginLink;
-    
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +76,6 @@ public class SignupActivity extends AppCompatActivity {
         String email = _emailText.getText().toString();
         String mobile = _mobileText.getText().toString();
         String password = _passwordText.getText().toString();
-        String reEnterPassword = _reEnterPasswordText.getText().toString();
 
         // TODO: Implement your own signup logic here.
 
@@ -89,6 +87,8 @@ public class SignupActivity extends AppCompatActivity {
         // other fields can be set just like with ParseObject
         user.put("phone",mobile);
         user.put("name",name);
+        user.put("address",address);
+        user.saveInBackground();
 
         user.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
@@ -111,7 +111,6 @@ public class SignupActivity extends AppCompatActivity {
                     // to figure out what went wrong
                     progressDialog.dismiss();
                     Toast.makeText(getBaseContext(), "Signup failed", Toast.LENGTH_LONG).show();
-                    e.printStackTrace();
                 }
             }
         });
@@ -121,7 +120,9 @@ public class SignupActivity extends AppCompatActivity {
     public void onSignupSuccess() {
         _signupButton.setEnabled(true);
         setResult(RESULT_OK, null);
-        finish();
+        Intent i = new Intent(SignupActivity.this,MainActivity.class);
+        startActivity(i);
+        SignupActivity.this.finish();
     }
 
     public void onSignupFailed() {
@@ -138,7 +139,6 @@ public class SignupActivity extends AppCompatActivity {
         String email = _emailText.getText().toString();
         String mobile = _mobileText.getText().toString();
         String password = _passwordText.getText().toString();
-        String reEnterPassword = _reEnterPasswordText.getText().toString();
 
         if (name.isEmpty() || name.length() < 3) {
             _nameText.setError("at least 3 characters");
@@ -174,13 +174,6 @@ public class SignupActivity extends AppCompatActivity {
             valid = false;
         } else {
             _passwordText.setError(null);
-        }
-
-        if (reEnterPassword.isEmpty() || reEnterPassword.length() < 4 || reEnterPassword.length() > 10 || !(reEnterPassword.equals(password))) {
-            _reEnterPasswordText.setError("Password Do not match");
-            valid = false;
-        } else {
-            _reEnterPasswordText.setError(null);
         }
 
         return valid;
