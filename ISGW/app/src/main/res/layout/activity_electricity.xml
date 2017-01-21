@@ -227,16 +227,5 @@
             android:layout_height="300dp" />
     </LinearLayout>
 
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="65dp"
-        android:text="PAY BILL"
-        android:layout_below="@id/graphs"
-        android:layout_marginTop="10dp"
-        android:textSize="24sp"
-        android:textColor="@color/accent"
-        android:background="#e19211" />
-
 </RelativeLayout>
 </ScrollView>

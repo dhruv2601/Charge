@@ -34,8 +34,10 @@
             android:theme="@style/Theme.AppCompat.NoActionBar" />
         <activity android:name=".Activities.ProfileActivity" />
         <activity android:name=".Activities.PaymentActivity" />
-        <activity android:name=".Activities.GraphZoomActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+        <activity
+            android:name=".Activities.GraphZoomActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity android:name=".Activities.AppliancesActivity"></activity>
     </application>
 
 </manifest>

@@ -2,10 +2,6 @@ package isgw.isgw;
 
 import java.util.HashMap;
 
-/**
- * Created by vishal on 1/21/17.
- */
-
 public class DataSets {
 
     static class Lighting {
