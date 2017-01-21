@@ -95,11 +95,14 @@ public class Realtime extends android.support.v4.app.Fragment {
             @Override
             public void run() {
                 lastXVal++;
-                double t = getRand();
-                series1.appendData(new DataPoint(lastXVal, t), true, 30);
-                mHandler.postDelayed(this, 500);
+//                double t = getRand();
+//                series1.appendData(new DataPoint(lastXVal, t), true, 30);
+//                new darkRequestToParse().execute();
+                new darkRequestToParse().execute();
+                mHandler.postDelayed(this, 30 * 1000);
             }
         };
+
         mHandler.postDelayed(t1, 1000);
         Log.d(TAG, "onResume: called");
     }
@@ -109,9 +112,7 @@ public class Realtime extends android.support.v4.app.Fragment {
         super.onPause();
         Log.d(TAG, "onPause: called");
         mHandler.removeCallbacks(t1);
-
     }
-
 
     /**
      * TODO:
@@ -131,73 +132,63 @@ public class Realtime extends android.support.v4.app.Fragment {
     }
 
     public class darkRequestToParse extends AsyncTask<Void, Void, Void> {
-        ParseUser user = ParseUser.getCurrentUser();
-        String currObjId = user.getObjectId();
+
+        ParseUser currUser = ParseUser.getCurrentUser();
 
         @Override
         protected Void doInBackground(Void... voids) {
 
-            ParseQuery<ParseObject> query = ParseQuery.getQuery("User");
-            query.getInBackground(currObjId, new GetCallback<ParseObject>() {
-                @Override
-                public void done(ParseObject object, ParseException e) {
-                    if (e == null) {
+            totalConsum = 0;
+            String airconditioner = currUser.getString("Airconditioner");
+            if (airconditioner.equals("1")) {
+//                String timeUse = currUser.getString("timeStatus");
+                totalConsum += kwhAC;
+                Log.d(TAG, "aircond");
+            }
 
-                        String airconditioner = object.getString("Airconditioner");
-                        if (airconditioner.equals("1")) {
-                            String timeUse = object.getString("timeStatus");
-                            int time = Integer.parseInt(timeUse);
-//                            totalConsum += time * kwhAC;
-                            totalConsum += kwhAC;
-                        }
-                        String SmartMeter = object.getString("SmartMeter");
-                        if (SmartMeter.equals("1")) {
-                            String timeUse = object.getString("timeStatus");
-                            int time = Integer.parseInt(timeUse);
+            String SmartMeter = currUser.getString("SmartMeter");
+            if (SmartMeter.equals("1")) {
+//                String timeUse = currUser.getString("timeStatus");
+//                int time = Integer.parseInt(timeUse);
 //                            totalConsum += time * kwhSmartMeter;
-                            totalConsum += kwhSmartMeter;
-                        }
-                        String Fridge = object.getString("Fridge");
-                        if (Fridge.equals("1")) {
-                            String timeUse = object.getString("timeStatus");
-                            int time = Integer.parseInt(timeUse);
+                totalConsum += kwhSmartMeter;
+            }
+            String Fridge = currUser.getString("Fridge");
+            if (Fridge.equals("1")) {
+//                String timeUse = currUser.getString("timeStatus");
+//                int time = Integer.parseInt(timeUse);
 //                            totalConsum += time * kwhRefr;
-                            totalConsum += kwhRefr;
-                        }
-                        String Lighting = object.getString("Lighting");
-                        if (Lighting.equals("1")) {
-                            String timeUse = object.getString("timeStatus");
-                            int time = Integer.parseInt(timeUse);
+                totalConsum += kwhRefr;
+            }
+            String Lighting = currUser.getString("Lighting");
+            if (Lighting.equals("1")) {
+//                String timeUse = currUser.getString("timeStatus");
+//                int time = Integer.parseInt(timeUse);
 //                            totalConsum += time * kwhLight;
-                            totalConsum += kwhLight;
-                        }
-                        String WashingMachine = object.getString("WashingMachine");
-                        if (WashingMachine.equals("1")) {
-                            String timeUse = object.getString("timeStatus");
-                            int time = Integer.parseInt(timeUse);
+                totalConsum += kwhLight;
+            }
+            String WashingMachine = currUser.getString("WashingMachine");
+            if (WashingMachine.equals("1")) {
+                String timeUse = currUser.getString("timeStatus");
+//                int time = Integer.parseInt(timeUse);
 //                            totalConsum += time * kwhWashingM;
-                            totalConsum += kwhWashingM;
-                        }
-                        String TV = object.getString("TV");
-                        if (TV.equals("1")) {
-                            String timeUse = object.getString("timeStatus");
-                            int time = Integer.parseInt(timeUse);
+                totalConsum += kwhWashingM;
+            }
+            String TV = currUser.getString("TV");
+            if (TV.equals("1")) {
+//                String timeUse = currUser.getString("timeStatus");
+//                int time = Integer.parseInt(timeUse);
 //                            totalConsum += time * kwhTV;
-                            totalConsum += kwhTV;
-                        }
-                        String Heater = object.getString("Heater");
-                        if (Heater.equals("1")) {
-                            String timeUse = object.getString("timeStatus");
-                            int time = Integer.parseInt(timeUse);
+                totalConsum += kwhTV;
+            }
+            String Heater = currUser.getString("Heater");
+            if (Heater.equals("1")) {
+//                String timeUse = currUser.getString("timeStatus");
+//                int time = Integer.parseInt(timeUse);
 //                            totalConsum += time * kwhHeater;
-                            totalConsum += kwhHeater;
-                        }
+                totalConsum += kwhHeater;
+            }
 
-                    } else {
-                        Toast.makeText(getContext(), "Error retreaving graph", Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
             return null;
         }
     }
