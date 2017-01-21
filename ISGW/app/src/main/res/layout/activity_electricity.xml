@@ -224,7 +224,7 @@
             android:padding="5dp"
             android:layout_margin="5dp"
             app:cardElevation="2sp"
-            android:layout_height="325dp" />
+            android:layout_height="300dp" />
     </LinearLayout>
 
 
