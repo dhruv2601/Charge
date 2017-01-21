@@ -226,7 +226,7 @@ public class Realtime extends android.support.v4.app.Fragment {
                 totalConsum += kwhHeater;
             }
             Log.d(TAG, "doInBackground: sjsj" + totalConsum);
-            series1.appendData(new DataPoint(lastXVal, totalConsum / 220), true, 30);
+            series1.appendData(new DataPoint(lastXVal, totalConsum), true, 30);
             return null;
         }
     }
