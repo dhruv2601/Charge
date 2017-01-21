@@ -31,8 +31,7 @@ public class MainActivity extends AppCompatActivity {
             parseUser = currentUser.getUsername();
             parsePassword = currentUser.getEmail();
 
-            Log.d(TAG, "currentUserIsThere");
-
+            Log.d(TAG,"currentUserIsThere");
 //            currentUser.addAll("appliance", Arrays.asList("A.C.", "Fan", "CFL", "Refrigerator"));
 //            currentUser.saveInBackground();
 
@@ -45,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
 //            SendToParse sendToParse = new SendToParse(formattedDate,c.getTimeInMillis(),"Pankha",101,10);
 //            sendToParse.execute();
 
+//            SendToParse sendToParse = new SendToParse(formattedDate,c.getTimeInMillis(),"Pankha",101,10);
+//            sendToParse.execute();
+//
 //            GetFromParse getFromParse = new GetFromParse();
 //            getFromParse.execute();
 
