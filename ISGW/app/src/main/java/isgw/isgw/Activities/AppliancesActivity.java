@@ -1,9 +1,9 @@
 package isgw.isgw.Activities;
 
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
-import isgw.isgw.Graphs.Realtime;
 import isgw.isgw.R;
 import isgw.isgw.Server.SwitchParse;
 
@@ -28,7 +27,15 @@ public class AppliancesActivity extends AppCompatActivity implements View.OnClic
     String heaterBeacon = "0";
     String wmBeacon = "0";
     String lightBeacon = "0";
-    String smartMeterBeacon;
+    String smartMeterBeacon = "0";
+
+    String acStat = "1";
+    String fridgeStat = "1";
+    String tvStat = "1";
+    String heaterStat = "1";
+    String wmStat = "1";
+    String lightStat = "1";
+    String meterStat = "1";
 
     ImageView acIW;
     ImageView fridgeIW;
@@ -36,7 +43,6 @@ public class AppliancesActivity extends AppCompatActivity implements View.OnClic
     ImageView heaterIW;
     ImageView wmIW;
     ImageView lightIW;
-
 
     private static final String TAG = "AppliaanceAct";
     ParseUser currUser = ParseUser.getCurrentUser();
@@ -80,9 +86,10 @@ public class AppliancesActivity extends AppCompatActivity implements View.OnClic
             @Override
             public void run() {
                 new getBeaconStatus().execute();
+                mHandler.postDelayed(t1, 30 * 1000);
             }
         };
-        mHandler.postDelayed(t1, 0);
+        mHandler.post(t1);
     }
 
     @Override
@@ -99,13 +106,15 @@ public class AppliancesActivity extends AppCompatActivity implements View.OnClic
 
                 Log.d(TAG, "currUser: " + currUser.getUsername());
                 prevOnOff = currUser.getString("BtnAirconditioner");
+                sendingStatus = prevOnOff;
                 if (prevOnOff == null) {
                     sendingStatus = "0";
                 } else {
-                    sendingStatus = sendStatus(prevOnOff);
+                    sendingStatus = invertStatus(prevOnOff);
                 }
                 switchParse = new SwitchParse(1, sendingStatus);
                 switchParse.sendStatus();
+                acStat = sendingStatus;
                 new getBeaconStatus().execute();
 
                 // i.putExtra(GRAPH_TYPE, AC);
@@ -115,14 +124,15 @@ public class AppliancesActivity extends AppCompatActivity implements View.OnClic
                 // i.putExtra(GRAPH_TYPE, FRIDGE);
 
                 prevOnOff = currUser.getString("BtnFridge");
+                sendingStatus = prevOnOff;
                 if (prevOnOff == null) {
                     sendingStatus = "0";
                 } else {
-                    sendingStatus = sendStatus(prevOnOff);
+                    sendingStatus = invertStatus(prevOnOff);
                 }
                 switchParse = new SwitchParse(2, sendingStatus);
                 switchParse.sendStatus();
-
+                fridgeStat = sendingStatus;
                 new getBeaconStatus().execute();
 
                 break;
@@ -131,14 +141,16 @@ public class AppliancesActivity extends AppCompatActivity implements View.OnClic
                 // i.putExtra(GRAPH_TYPE, BULB);
 
                 prevOnOff = currUser.getString("BtnLighting");
+                sendingStatus = prevOnOff;
                 if (prevOnOff == null) {
                     sendingStatus = "0";
                 } else {
-                    sendingStatus = sendStatus(prevOnOff);
+                    sendingStatus = invertStatus(prevOnOff);
                 }
                 switchParse = new SwitchParse(3, sendingStatus);
                 switchParse.sendStatus();
 
+                lightStat = sendingStatus;
                 new getBeaconStatus().execute();
 
                 break;
@@ -147,14 +159,16 @@ public class AppliancesActivity extends AppCompatActivity implements View.OnClic
                 // i.putExtra(GRAPH_TYPE, WASH_M);
 
                 prevOnOff = currUser.getString("BtnWashingMachine");
+                sendingStatus = prevOnOff;
                 if (prevOnOff == null) {
                     sendingStatus = "0";
                 } else {
-                    sendingStatus = sendStatus(prevOnOff);
+                    sendingStatus = invertStatus(prevOnOff);
                 }
                 switchParse = new SwitchParse(4, sendingStatus);
                 switchParse.sendStatus();
 
+                wmStat = sendingStatus;
                 new getBeaconStatus().execute();
 
                 break;
@@ -163,14 +177,16 @@ public class AppliancesActivity extends AppCompatActivity implements View.OnClic
                 // i.putExtra(GRAPH_TYPE, HEATER);
 
                 prevOnOff = currUser.getString("BtnHeater");
+                sendingStatus = prevOnOff;
                 if (prevOnOff == null) {
                     sendingStatus = "0";
                 } else {
-                    sendingStatus = sendStatus(prevOnOff);
+                    sendingStatus = invertStatus(prevOnOff);
                 }
                 switchParse = new SwitchParse(5, sendingStatus);
                 switchParse.sendStatus();
 
+                heaterStat = sendingStatus;
                 new getBeaconStatus().execute();
 
                 break;
@@ -179,16 +195,17 @@ public class AppliancesActivity extends AppCompatActivity implements View.OnClic
                 // i.putExtra(GRAPH_TYPE, COMP);
 
                 prevOnOff = currUser.getString("BtnTV");
+                sendingStatus = prevOnOff;
                 if (prevOnOff == null) {
                     sendingStatus = "0";
                 } else {
-                    sendingStatus = sendStatus(prevOnOff);
+                    sendingStatus = invertStatus(prevOnOff);
                 }
                 switchParse = new SwitchParse(6, sendingStatus);
                 switchParse.sendStatus();
 
+                tvStat = sendingStatus;
                 new getBeaconStatus().execute();
-
                 break;
             default:
         }
@@ -200,46 +217,65 @@ public class AppliancesActivity extends AppCompatActivity implements View.OnClic
             acIW.setImageResource(R.drawable.acbw);
             acIW.setOnClickListener(null);
         } else {
-            acIW.setImageResource(R.drawable.ac);
+            if (acStat.equals("1"))
+                acIW.setImageResource(R.drawable.ac);
+            else
+                acIW.setImageResource(R.drawable.acbw);
             acIW.setOnClickListener(this);
         }
         if (heaterBeacon.equals("0")) {
             heaterIW.setImageResource(R.drawable.fireplacebw);
             heaterIW.setOnClickListener(null);
         } else {
-            heaterIW.setImageResource(R.drawable.fireplace);
+            if (heaterStat.equals("1"))
+                heaterIW.setImageResource(R.drawable.fireplace);
+            else
+                heaterIW.setImageResource(R.drawable.fireplacebw);
             heaterIW.setOnClickListener(this);
         }
         if (wmBeacon.equals("0")) {
             wmIW.setImageResource(R.drawable.wmbw);
             wmIW.setOnClickListener(null);
         } else {
-            wmIW.setImageResource(R.drawable.wm);
+            if (wmStat.equals("1"))
+                wmIW.setImageResource(R.drawable.wm);
+            else
+                wmIW.setImageResource(R.drawable.wmbw);
             wmIW.setOnClickListener(this);
         }
         if (lightBeacon.equals("0")) {
-            lightIW.setImageResource(R.drawable.bulbbw);
+            lightIW.setImageResource(R.drawable.bulbw);
             lightIW.setOnClickListener(null);
         } else {
-            lightIW.setImageResource(R.drawable.bulb);
+            if (lightStat.equals("1"))
+                lightIW.setImageResource(R.drawable.bulb);
+            else
+                lightIW.setImageResource(R.drawable.bulbw);
             lightIW.setOnClickListener(this);
         }
         if (tvBeacon.equals("0")) {
             tvIW.setImageResource(R.drawable.computerbw);
             tvIW.setOnClickListener(null);
         } else {
-            tvIW.setImageResource(R.drawable.computer);
+            if (tvStat.equals("1"))
+                tvIW.setImageResource(R.drawable.computer);
+            else
+                tvIW.setImageResource(R.drawable.computerbw);
+            tvIW.setOnClickListener(this);
         }
         if (fridgeBeacon.equals("0")) {
-            heaterIW.setImageResource(R.drawable.fireplacebw);
-            heaterIW.setOnClickListener(null);
+            fridgeIW.setImageResource(R.drawable.fireplacebw);
+            fridgeIW.setOnClickListener(null);
         } else {
-            heaterIW.setImageResource(R.drawable.fireplace);
-            heaterIW.setOnClickListener(this);
+            if (fridgeStat.equals("1"))
+                fridgeIW.setImageResource(R.drawable.ref);
+            else
+                fridgeIW.setImageResource(R.drawable.refbw);
+            fridgeIW.setOnClickListener(this);
         }
     }
 
-    private String sendStatus(String i) {
+    private String invertStatus(String i) {
         String s;
         if (i.equals("0")) {
             s = "1";
