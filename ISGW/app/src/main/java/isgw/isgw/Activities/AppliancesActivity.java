@@ -272,6 +272,7 @@ public class AppliancesActivity extends AppCompatActivity implements View.OnClic
     }
 
     void setButtons() {
+
         if (acBeacon.equals("0")) {
             acIW.setImageResource(R.drawable.acbw);
             acIW.setOnClickListener(null);
