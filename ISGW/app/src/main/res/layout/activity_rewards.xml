@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_height="600dp"
+    android:layout_height="match_parent"
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 <RelativeLayout
@@ -113,31 +113,78 @@
         android:layout_height="50dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/textView12"
-
+        android:id="@+id/redlayer"
         android:background="@color/Color_OrangeRed"
-        android:layout_marginTop="20dp"
-        android:layout_width="250dp" />
+        android:layout_marginTop="50dp"
+        android:layout_width="300dp" />
 
-    <TextView
-        android:text="1224"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/textView15"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:paddingBottom="8dp"
-        android:textAppearance="@android:style/TextAppearance.Material.Title"
-        android:textColor="@color/accent"
-        android:textSize="30sp" />
+        android:orientation="horizontal"
+        android:layout_below="@id/redlayer"
+        android:layout_marginTop="20dp"
+        android:id="@+id/integrate1">
+
+            <ImageView
+    android:layout_width="wrap_content"
+    android:layout_height="100dp"
+    android:src="@drawable/uber"
+    android:layout_weight="1"
+                android:id="@+id/uber"
+    />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:src="@drawable/paytm"
+            android:layout_weight="1"
+            android:id="@+id/paytm"/>
+
+
+    </LinearLayout>
+
 
     <ImageView
         app:srcCompat="@drawable/medal"
         android:id="@+id/imageView21"
         android:layout_width="40dp"
         android:paddingBottom="4dp"
-        android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/imageView15"
-        android:layout_height="50dp" />
+        android:layout_height="50dp"
+        android:layout_alignTop="@+id/redlayer"
+        android:layout_alignEnd="@+id/imageView15" />
+
+    <TextView
+        android:text="1224"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView15"
+        android:paddingBottom="4dp"
+        android:paddingLeft="50dp"
+        android:textAppearance="@android:style/TextAppearance.Material.Title"
+        android:textColor="@color/accent"
+        android:textSize="40sp"
+        android:layout_alignTop="@+id/redlayer"
+        android:layout_alignStart="@+id/imageView21" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/integrate1"
+        android:layout_marginTop="20dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:src="@drawable/desktop"
+            android:layout_weight="1"
+            android:id="@+id/paymentapp"
+            />
+
+
+
+    </LinearLayout>
 
 </RelativeLayout>
 </ScrollView>

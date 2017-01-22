@@ -91,7 +91,7 @@ public class Realtime extends android.support.v4.app.Fragment {
         gView.getViewport().setMaxX(30);
 
         gView.getGridLabelRenderer().setLabelVerticalWidth(100);
-        if (getActivity() instanceof ElectricityActivity) {
+        if (getActivity() instanceof ElectricityActivity || getActivity() instanceof AppliancesActivity) {
             gView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -128,7 +128,7 @@ public class Realtime extends android.support.v4.app.Fragment {
                 st += "BULB ";
                 break;
             case AppliancesActivity.COMP:
-                st += "COMPUTER ";
+                st += "TV ";
                 break;
             case AppliancesActivity.HEATER:
                 st += "HEATER ";
@@ -196,7 +196,8 @@ public class Realtime extends android.support.v4.app.Fragment {
                 Log.d(TAG, "aircond" + totalConsum);
             }
 //            currUser = ParseUser.getCurrentUser();
-            String SmartMeter = currUser.getString("SmartMeter");
+            String SmartMeter = "1";
+                    //currUser.getString("SmartMeter");
             if (SmartMeter.equals("1")) {
 //                String timeUse = currUser.getString("timeStatus");
 //                int time = Integer.parseInt(timeUse);

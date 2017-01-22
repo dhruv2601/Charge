@@ -1,5 +1,9 @@
 package isgw.isgw.Activities;
 
+import android.content.Intent;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,15 +15,25 @@ import android.widget.ImageView;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
+import isgw.isgw.Graphs.Realtime;
 import isgw.isgw.R;
 import isgw.isgw.Server.SwitchParse;
 
 public class AppliancesActivity extends AppCompatActivity implements View.OnClickListener {
 
+    public static final String GRAPH_TYPE="graph_type";
+    public static final int AC=313,FRIDGE=314,BULB=315,WASH_M=316,HEATER=317,COMP=318;
+
+
+    private void loadRealtimeGraph() {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction txn = manager.beginTransaction();
+        txn.add(R.id.real_graph_holder, new Realtime());
+        txn.commit();
+    }
+
     private final Handler mHandler = new Handler();
     private Runnable t1;
-    public static final String GRAPH_TYPE = "graph_type";
-    public static final int AC = 313, FRIDGE = 314, BULB = 315, WASH_M = 316, HEATER = 317, COMP = 318;
 
     String acBeacon = "0";
     String fridgeBeacon = "0";
@@ -54,6 +68,10 @@ public class AppliancesActivity extends AppCompatActivity implements View.OnClic
 
         getSupportActionBar().hide();
 
+        if (savedInstanceState == null){
+            loadRealtimeGraph();
+        }
+
         try {
             currUser = currUser.fetch();
         } catch (ParseException e) {
@@ -81,6 +99,13 @@ public class AppliancesActivity extends AppCompatActivity implements View.OnClic
 //        lightIW.setOnClickListener(this);
 //        tvIW.setOnClickListener(this);
 //        fridgeIW.setOnClickListener(this);
+
+        findViewById(R.id.mains).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // TODO: LODA LELE
+            }
+        });
 
         t1 = new Runnable() {
             @Override

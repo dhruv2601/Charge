@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
 <RelativeLayout
     android:id="@+id/activity_appliances"
@@ -17,6 +17,23 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         >
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/real_graph_holder"
+            android:layout_width="match_parent"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            app:cardElevation="2sp"
+            android:layout_height="300dp" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="APPLIANCES"
+            android:textSize="25sp"
+            android:textAlignment="center"
+            android:textStyle="normal|bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -181,6 +198,19 @@
                 android:textAppearance="@android:style/TextAppearance.Material.Subhead" />
 
         </LinearLayout>
+
+
+                <Button
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                    android:id="@+id/mains"
+                android:text="MAINS"
+                android:textSize="20sp"
+                    android:background="@color/Color_MidnightBlue"
+                    android:textColor="@color/accent"
+                    android:layout_marginTop="20dp"/>
+
+
     </LinearLayout>
 </RelativeLayout>
 </ScrollView>

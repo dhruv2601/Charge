@@ -68,18 +68,11 @@ public class ElectricityActivity extends AppCompatActivity {
         }.start();
 
         if (savedInstanceState==null) {
-            loadRealtimeGraph();
             loadBarGraph();
         }
 
     }
 
-    private void loadRealtimeGraph() {
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction txn = manager.beginTransaction();
-        txn.add(R.id.real_graph_holder, new Realtime());
-        txn.commit();
-    }
 
     private void loadBarGraph() {
         FragmentManager manager = getSupportFragmentManager();
