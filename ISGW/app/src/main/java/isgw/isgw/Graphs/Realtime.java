@@ -65,15 +65,7 @@ public class Realtime extends android.support.v4.app.Fragment {
             e.printStackTrace();
         }
 
-        currUser.put("BtnAirconditioner", "1");
-        currUser.put("BtnFridge", "1");
-        currUser.put("BtnLighting", "1");
-        currUser.put("BtnWashingMachine", "1");
-        currUser.put("BtnHeater", "1");
-        currUser.put("BtnTV", "1");
-
-        currUser.saveInBackground();
-        super.onCreate(savedInstanceState);
+       super.onCreate(savedInstanceState);
     }
 
     @Nullable
