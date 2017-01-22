@@ -4,11 +4,16 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.view.menu.MenuView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.parse.ParseException;
+import com.parse.ParseUser;
+
 import isgw.isgw.Graphs.Realtime;
 import isgw.isgw.R;
+import isgw.isgw.Server.SwitchParse;
 
 public class AppliancesActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -29,12 +34,22 @@ public class AppliancesActivity extends AppCompatActivity implements View.OnClic
     ImageView heaterIW;
     ImageView wmIW;
     ImageView lightIW;
+
+    private static final String TAG = "AppliaanceAct";
+    ParseUser currUser = ParseUser.getCurrentUser();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appliances);
 
         getSupportActionBar().hide();
+
+        try {
+            currUser = currUser.fetch();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         //CLICK LISTENERS
 //        findViewById(R.id.air_c).setOnClickListener(this);
@@ -64,30 +79,102 @@ public class AppliancesActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onClick(View v) {
-        Intent  i=new Intent(getApplicationContext(),GraphZoomActivity.class);
-        i.setAction(Realtime.INTENT_ACTION);
+//        Intent  i=new Intent(getApplicationContext(),GraphZoomActivity.class);
+        currUser = ParseUser.getCurrentUser();
+        String prevOnOff;
+        String sendingStatus;
+        SwitchParse switchParse;
+
+//        i.setAction(Realtime.INTENT_ACTION);
         switch (v.getId()) {
             case R.id.air_c:
 
+
+                Log.d(TAG, "currUser: " + currUser.getUsername());
+                prevOnOff = currUser.getString("BtnAirconditioner");
+                if (prevOnOff == null) {
+                    sendingStatus = "0";
+                } else {
+                    sendingStatus = sendStatus(prevOnOff);
+                }
+                switchParse = new SwitchParse(1, sendingStatus);
+                switchParse.sendStatus();
+
+               // i.putExtra(GRAPH_TYPE, AC);
                 break;
             case R.id.ref:
+
+               // i.putExtra(GRAPH_TYPE, FRIDGE);
+
+                prevOnOff = currUser.getString("BtnFridge");
+                if (prevOnOff == null) {
+                    sendingStatus = "0";
+                } else {
+                    sendingStatus = sendStatus(prevOnOff);
+                }
+                switchParse = new SwitchParse(2, sendingStatus);
+                switchParse.sendStatus();
 
                 break;
             case R.id.bulb:
 
+               // i.putExtra(GRAPH_TYPE, BULB);
+
+                prevOnOff = currUser.getString("BtnLighting");
+                if (prevOnOff == null) {
+                    sendingStatus = "0";
+                } else {
+                    sendingStatus = sendStatus(prevOnOff);
+                }
+                switchParse = new SwitchParse(3, sendingStatus);
+                switchParse.sendStatus();
+
                 break;
             case R.id.wash_m:
+
+               // i.putExtra(GRAPH_TYPE, WASH_M);
+
+                prevOnOff = currUser.getString("BtnWashingMachine");
+                if (prevOnOff == null) {
+                    sendingStatus = "0";
+                } else {
+                    sendingStatus = sendStatus(prevOnOff);
+                }
+                switchParse = new SwitchParse(4, sendingStatus);
+                switchParse.sendStatus();
 
                 break;
             case R.id.heater:
 
+               // i.putExtra(GRAPH_TYPE, HEATER);
+
+                prevOnOff = currUser.getString("BtnHeater");
+                if (prevOnOff == null) {
+                    sendingStatus = "0";
+                } else {
+                    sendingStatus = sendStatus(prevOnOff);
+                }
+                switchParse = new SwitchParse(5, sendingStatus);
+                switchParse.sendStatus();
+
                 break;
             case R.id.comp:
+
+               // i.putExtra(GRAPH_TYPE, COMP);
+
+                prevOnOff = currUser.getString("BtnTV");
+                if (prevOnOff == null) {
+                    sendingStatus = "0";
+                } else {
+                    sendingStatus = sendStatus(prevOnOff);
+                }
+                switchParse = new SwitchParse(6, sendingStatus);
+                switchParse.sendStatus();
 
                 break;
             default:
         }
-        startActivity(i);
+        //startActivity(i);
     }
 
     void setButtons(){
@@ -133,5 +220,16 @@ public class AppliancesActivity extends AppCompatActivity implements View.OnClic
             heaterIW.setOnClickListener(this);
         }
     }
+
+    private String sendStatus(String i) {
+        String s;
+        if (i.equals("0")) {
+            s = "1";
+        } else {
+            s = "0";
+        }
+        return s;
+    }
+
 
 }
