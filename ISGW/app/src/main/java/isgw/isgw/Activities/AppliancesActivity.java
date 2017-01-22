@@ -1,9 +1,7 @@
 package isgw.isgw.Activities;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.view.menu.MenuView;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,7 +9,6 @@ import android.widget.ImageView;
 import com.parse.ParseException;
 import com.parse.ParseUser;
 
-import isgw.isgw.Graphs.Realtime;
 import isgw.isgw.R;
 import isgw.isgw.Server.SwitchParse;
 
@@ -20,13 +17,21 @@ public class AppliancesActivity extends AppCompatActivity implements View.OnClic
     public static final String GRAPH_TYPE="graph_type";
     public static final int AC=313,FRIDGE=314,BULB=315,WASH_M=316,HEATER=317,COMP=318;
 
-    String acBeacon;
-    String fridgeBeacon;
-    String tvBeacon;
-    String heaterBeacon;
-    String wmBeacon;
-    String lightBeacon;
-    String smartMeterBeacon;
+    String acBeacon="0";
+    String fridgeBeacon="0";
+    String tvBeacon="0";
+    String heaterBeacon="0";
+    String wmBeacon="0";
+    String lightBeacon="0";
+    String smartMeterBeacon="0";
+
+    String acStat="1";
+    String fridgeStat="1";
+    String tvStat="1";
+    String heaterStat="1";
+    String wmStat="1";
+    String lightStat="1";
+    String meterStat="1";
 
     ImageView acIW;
     ImageView fridgeIW;
@@ -73,6 +78,8 @@ public class AppliancesActivity extends AppCompatActivity implements View.OnClic
 //        tvIW.setOnClickListener(this);
 //        fridgeIW.setOnClickListener(this);
 
+        //setButtons();
+
 
 
     }
@@ -92,10 +99,11 @@ public class AppliancesActivity extends AppCompatActivity implements View.OnClic
 
                 Log.d(TAG, "currUser: " + currUser.getUsername());
                 prevOnOff = currUser.getString("BtnAirconditioner");
+                sendingStatus=prevOnOff;
                 if (prevOnOff == null) {
                     sendingStatus = "0";
                 } else {
-                    sendingStatus = sendStatus(prevOnOff);
+                    sendingStatus = invertStatus(prevOnOff);
                 }
                 switchParse = new SwitchParse(1, sendingStatus);
                 switchParse.sendStatus();
@@ -107,10 +115,11 @@ public class AppliancesActivity extends AppCompatActivity implements View.OnClic
                // i.putExtra(GRAPH_TYPE, FRIDGE);
 
                 prevOnOff = currUser.getString("BtnFridge");
+                sendingStatus=prevOnOff;
                 if (prevOnOff == null) {
                     sendingStatus = "0";
                 } else {
-                    sendingStatus = sendStatus(prevOnOff);
+                    sendingStatus = invertStatus(prevOnOff);
                 }
                 switchParse = new SwitchParse(2, sendingStatus);
                 switchParse.sendStatus();
@@ -121,10 +130,11 @@ public class AppliancesActivity extends AppCompatActivity implements View.OnClic
                // i.putExtra(GRAPH_TYPE, BULB);
 
                 prevOnOff = currUser.getString("BtnLighting");
+                sendingStatus=prevOnOff;
                 if (prevOnOff == null) {
                     sendingStatus = "0";
                 } else {
-                    sendingStatus = sendStatus(prevOnOff);
+                    sendingStatus = invertStatus(prevOnOff);
                 }
                 switchParse = new SwitchParse(3, sendingStatus);
                 switchParse.sendStatus();
@@ -135,10 +145,11 @@ public class AppliancesActivity extends AppCompatActivity implements View.OnClic
                // i.putExtra(GRAPH_TYPE, WASH_M);
 
                 prevOnOff = currUser.getString("BtnWashingMachine");
+                sendingStatus=prevOnOff;
                 if (prevOnOff == null) {
                     sendingStatus = "0";
                 } else {
-                    sendingStatus = sendStatus(prevOnOff);
+                    sendingStatus = invertStatus(prevOnOff);
                 }
                 switchParse = new SwitchParse(4, sendingStatus);
                 switchParse.sendStatus();
@@ -149,10 +160,11 @@ public class AppliancesActivity extends AppCompatActivity implements View.OnClic
                // i.putExtra(GRAPH_TYPE, HEATER);
 
                 prevOnOff = currUser.getString("BtnHeater");
+                sendingStatus=prevOnOff;
                 if (prevOnOff == null) {
                     sendingStatus = "0";
                 } else {
-                    sendingStatus = sendStatus(prevOnOff);
+                    sendingStatus = invertStatus(prevOnOff);
                 }
                 switchParse = new SwitchParse(5, sendingStatus);
                 switchParse.sendStatus();
@@ -163,10 +175,11 @@ public class AppliancesActivity extends AppCompatActivity implements View.OnClic
                // i.putExtra(GRAPH_TYPE, COMP);
 
                 prevOnOff = currUser.getString("BtnTV");
+                sendingStatus=prevOnOff;
                 if (prevOnOff == null) {
                     sendingStatus = "0";
                 } else {
-                    sendingStatus = sendStatus(prevOnOff);
+                    sendingStatus = invertStatus(prevOnOff);
                 }
                 switchParse = new SwitchParse(6, sendingStatus);
                 switchParse.sendStatus();
@@ -179,49 +192,68 @@ public class AppliancesActivity extends AppCompatActivity implements View.OnClic
 
     void setButtons(){
         if(acBeacon.equals("0")){
-            acIW.setImageResource(R.drawable.acBW);
+            acIW.setImageResource(R.drawable.acbw);
             acIW.setOnClickListener(null);
         }else{
-            acIW.setImageResource(R.drawable.ac);
+            if(acStat.equals("1"))
+                acIW.setImageResource(R.drawable.ac);
+            else
+                acIW.setImageResource(R.drawable.acbw);
             acIW.setOnClickListener(this);
         }
         if(heaterBeacon.equals("0")){
-            heaterIW.setImageResource(R.drawable.fireplaceBW);
+            heaterIW.setImageResource(R.drawable.fireplacebw);
             heaterIW.setOnClickListener(null);
         }else{
-            heaterIW.setImageResource(R.drawable.fireplace);
+            if(heaterStat.equals("1"))
+                heaterIW.setImageResource(R.drawable.fireplace);
+            else
+                heaterIW.setImageResource(R.drawable.fireplacebw);
             heaterIW.setOnClickListener(this);
         }
         if(wmBeacon.equals("0")){
-            wmIW.setImageResource(R.drawable.wmBW);
+            wmIW.setImageResource(R.drawable.wmbw);
             wmIW.setOnClickListener(null);
         }else {
-            wmIW.setImageResource(R.drawable.wm);
+            if(wmStat.equals("1"))
+                wmIW.setImageResource(R.drawable.wm);
+            else
+                wmIW.setImageResource(R.drawable.wmbw);
             wmIW.setOnClickListener(this);
         }
         if(lightBeacon.equals("0")){
-            lightIW.setImageResource(R.drawable.bulbBW);
+            lightIW.setImageResource(R.drawable.bulbw);
             lightIW.setOnClickListener(null);
         }else{
-            lightIW.setImageResource(R.drawable.bulb);
+            if(lightStat.equals("1"))
+                lightIW.setImageResource(R.drawable.bulb);
+            else
+                lightIW.setImageResource(R.drawable.bulbw);
             lightIW.setOnClickListener(this);
         }
         if(tvBeacon.equals("0")){
-            tvIW.setImageResource(R.drawable.computerBW);
+            tvIW.setImageResource(R.drawable.computerbw);
             tvIW.setOnClickListener(null);
         }else{
-            tvIW.setImageResource(R.drawable.computer);
+            if(tvStat.equals("1"))
+                tvIW.setImageResource(R.drawable.computer);
+            else
+                tvIW.setImageResource(R.drawable.computerbw);
+            tvIW.setOnClickListener(this);
         }
         if(fridgeBeacon.equals("0")){
-            heaterIW.setImageResource(R.drawable.fireplaceBW);
+            heaterIW.setImageResource(R.drawable.fireplacebw);
             heaterIW.setOnClickListener(null);
         }else{
-            heaterIW.setImageResource(R.drawable.fireplace);
+            if(heaterStat.equals("1"))
+                heaterIW.setImageResource(R.drawable.fireplace);
+            else
+                heaterIW.setImageResource(R.drawable.fireplacebw);
             heaterIW.setOnClickListener(this);
         }
     }
 
-    private String sendStatus(String i) {
+    private String invertStatus(String i) {
         String s;
         if (i.equals("0")) {
             s = "1";
