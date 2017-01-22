@@ -34,23 +34,27 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG,"currentUserIsThere");
 //            currentUser.addAll("appliance", Arrays.asList("A.C.", "Fan", "CFL", "Refrigerator"));
 //            currentUser.saveInBackground();
+
             Calendar c = Calendar.getInstance();
-            Log.d(TAG,"currTime:  "+c.getTime());
+            Log.d(TAG, "currTime:  " + c.getTime());
 
-            SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
-            String formattedDate = df.format(c.getTime());
+//            SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+//            String formattedDate = df.format(c.getTime());
+//
+//            SendToParse sendToParse = new SendToParse(formattedDate,c.getTimeInMillis(),"Pankha",101,10);
+//            sendToParse.execute();
 
-            SendToParse sendToParse = new SendToParse(formattedDate,c.getTimeInMillis(),"Pankha",101,10);
-            sendToParse.execute();
+//            SendToParse sendToParse = new SendToParse(formattedDate,c.getTimeInMillis(),"Pankha",101,10);
+//            sendToParse.execute();
+//
+//            GetFromParse getFromParse = new GetFromParse();
+//            getFromParse.execute();
 
-            GetFromParse getFromParse = new GetFromParse();
-            getFromParse.execute();
-
-            Log.d(TAG,"currentUser is there");
+            Log.d(TAG, "currentUser is there");
             Intent i = new Intent(MainActivity.this, AccountActivity.class);         // account Activity
             startActivity(i);
         } else {
-            Log.d(TAG,"No Current User");
+            Log.d(TAG, "No Current User");
             Intent i = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(i);
             MainActivity.this.finish();

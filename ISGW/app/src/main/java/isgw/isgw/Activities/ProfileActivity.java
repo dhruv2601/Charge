@@ -27,7 +27,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
-        profileImage = (ImageView)findViewById(R.id.profile_image);
+        profileImage = (ImageView) findViewById(R.id.profile_image);
         Button saveChanges = (Button) findViewById(R.id.save_changes);
 
         profileImage.setOnClickListener(new View.OnClickListener() {
@@ -49,7 +49,7 @@ public class ProfileActivity extends AppCompatActivity {
 
                             }
                         })
-                        .setActionTextColor(getResources().getColor(android.R.color.holo_red_light ))
+                        .setActionTextColor(getResources().getColor(android.R.color.holo_red_light))
                         .show();
             }
         });
