@@ -1,6 +1,7 @@
 package isgw.isgw.Activities;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,7 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.parse.ParseException;
@@ -58,6 +60,8 @@ public class AppliancesActivity extends AppCompatActivity implements View.OnClic
     ImageView wmIW;
     ImageView lightIW;
 
+    Button mainsButton;
+
     private static final String TAG = "AppliaanceAct";
     ParseUser currUser = ParseUser.getCurrentUser();
 
@@ -78,6 +82,17 @@ public class AppliancesActivity extends AppCompatActivity implements View.OnClic
             e.printStackTrace();
         }
 
+        currUser.put("BtnSmartMeter","1");
+        currUser.put("BtnAirconditioner", "1");
+        currUser.put("BtnFridge", "1");
+        currUser.put("BtnLighting", "1");
+        currUser.put("BtnWashingMachine", "1");
+        currUser.put("BtnHeater", "1");
+        currUser.put("BtnTV", "1");
+
+        currUser.saveInBackground();
+
+
         //CLICK LISTENERS
 //        findViewById(R.id.air_c).setOnClickListener(this);
 //        findViewById(R.id.heater).setOnClickListener(this);
@@ -92,6 +107,7 @@ public class AppliancesActivity extends AppCompatActivity implements View.OnClic
         lightIW = (ImageView) findViewById(R.id.bulb);
         tvIW = (ImageView) findViewById(R.id.comp);
         fridgeIW = (ImageView) findViewById(R.id.ref);
+        mainsButton= (Button) findViewById(R.id.mains);
 
 //        acIW.setOnClickListener(this);
 //        heaterIW.setOnClickListener(this);
@@ -100,12 +116,6 @@ public class AppliancesActivity extends AppCompatActivity implements View.OnClic
 //        tvIW.setOnClickListener(this);
 //        fridgeIW.setOnClickListener(this);
 
-        findViewById(R.id.mains).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // TODO: LODA LELE
-            }
-        });
 
         t1 = new Runnable() {
             @Override
@@ -232,6 +242,30 @@ public class AppliancesActivity extends AppCompatActivity implements View.OnClic
                 tvStat = sendingStatus;
                 new getBeaconStatus().execute();
                 break;
+            case R.id.mains:
+                String smartBIGG = currUser.getString("BtnSmartMeter");
+                String invert = invertStatus(smartBIGG);
+
+                currUser.put("BtnSmartMeter",invert);
+                currUser.put("BtnAirconditioner", invert);
+                currUser.put("BtnFridge", invert);
+                currUser.put("BtnLighting", invert);
+                currUser.put("BtnWashingMachine", invert);
+                currUser.put("BtnHeater", invert);
+                currUser.put("BtnTV", invert);
+
+                currUser.saveInBackground();
+
+                acStat = invert;
+                fridgeStat = invert;
+                tvStat = invert;
+                heaterStat = invert;
+                wmStat = invert;
+                lightStat = invert;
+                meterStat = invert;
+
+                new getBeaconStatus().execute();
+                break;
             default:
         }
         //startActivity(i);
@@ -289,7 +323,8 @@ public class AppliancesActivity extends AppCompatActivity implements View.OnClic
             tvIW.setOnClickListener(this);
         }
         if (fridgeBeacon.equals("0")) {
-            fridgeIW.setImageResource(R.drawable.fireplacebw);
+            fridgeIW.setImageResource(R.drawable.refbw
+            );
             fridgeIW.setOnClickListener(null);
         } else {
             if (fridgeStat.equals("1"))
@@ -297,6 +332,17 @@ public class AppliancesActivity extends AppCompatActivity implements View.OnClic
             else
                 fridgeIW.setImageResource(R.drawable.refbw);
             fridgeIW.setOnClickListener(this);
+        }
+        if(smartMeterBeacon.equals("0")){
+            mainsButton.setBackgroundColor(Color.GRAY);
+            mainsButton.setOnClickListener(null);
+        }else{
+            if(meterStat.equals("1")){
+                mainsButton.setBackgroundColor(Color.RED);
+            }else{
+                mainsButton.setBackgroundColor(Color.GREEN);
+            }
+            mainsButton.setOnClickListener(this);
         }
     }
 
