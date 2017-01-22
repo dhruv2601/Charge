@@ -17,8 +17,8 @@
     <application
         android:name=".StarterApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="ISGW"
+        android:icon="@drawable/launcher"
+        android:label="Charge"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Activities.MainActivity">
