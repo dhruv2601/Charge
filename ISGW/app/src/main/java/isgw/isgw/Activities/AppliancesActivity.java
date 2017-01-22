@@ -13,7 +13,7 @@ import isgw.isgw.Graphs.Realtime;
 import isgw.isgw.R;
 import isgw.isgw.Server.SwitchParse;
 
-public class AppliancesActivity extends AppCompatActivity implements View.OnClickListener {
+public class AppliancesActivity extends AppCompatActivity implements View.OnClickListener{
 
     public static final String GRAPH_TYPE = "graph_type";
     public static final int AC = 313, FRIDGE = 314, BULB = 315, WASH_M = 316, HEATER = 317, COMP = 318;
@@ -45,12 +45,12 @@ public class AppliancesActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onClick(View v) {
+        Intent  i=new Intent(getApplicationContext(),GraphZoomActivity.class);
         currUser = ParseUser.getCurrentUser();
         String prevOnOff;
         String sendingStatus;
         SwitchParse switchParse;
 
-        Intent i = new Intent(getApplicationContext(), GraphZoomActivity.class);
         i.setAction(Realtime.INTENT_ACTION);
         switch (v.getId()) {
             case R.id.air_c:
