@@ -1,6 +1,8 @@
 package isgw.isgw.Activities;
 
 import android.content.Intent;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,12 +14,25 @@ public class AppliancesActivity extends AppCompatActivity implements View.OnClic
 
     public static final String GRAPH_TYPE="graph_type";
     public static final int AC=313,FRIDGE=314,BULB=315,WASH_M=316,HEATER=317,COMP=318;
+
+
+    private void loadRealtimeGraph() {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction txn = manager.beginTransaction();
+        txn.add(R.id.real_graph_holder, new Realtime());
+        txn.commit();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appliances);
 
         getSupportActionBar().hide();
+
+        if (savedInstanceState == null){
+            loadRealtimeGraph();
+        }
 
         //CLICK LISTENERS
         findViewById(R.id.air_c).setOnClickListener(this);
@@ -26,6 +41,16 @@ public class AppliancesActivity extends AppCompatActivity implements View.OnClic
         findViewById(R.id.bulb).setOnClickListener(this);
         findViewById(R.id.comp).setOnClickListener(this);
         findViewById(R.id.ref).setOnClickListener(this);
+        findViewById(R.id.mains).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                // TODO: Loda lele
+
+            }
+        });
+
+
     }
 
     @Override
